@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Form Input</title>
+    <link rel="stylesheet" href="css/materialize.css">
+    <style media="screen">
+      .card {
+        padding: 25px;
+        margin-top:2.5%;
+      }
+      body {
+        background-color: #eee;
+      }
+      h3 {
+        font-weight: 200;
+      }
+      #toast-container {
+        top: auto !important;
+        right: auto !important;
+        bottom: 50%;
+        left:40%;
+      }
+    </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <!-- Form -->
+      <div class="form card">
+        <form>
+          <h3 class="center">Form Input</h3>
+          <div class="row">
+            <div class="input-field col s8">
+              <i class="material-icons prefix">account_balance</i>
+              <input id="icon_prefix" name="nama" type="text" class="validate">
+              <span id="toast-container"></span>
+              <label for="icon_prefix">Nama Perusahaan</label>
+            </div>`
+          </div>
+          <div class="row">
+           <div class="input-field col s5">
+            <i class="material-icons prefix">assignment_turned_in</i>
+            <input id="icon_prefix" name="no_sertifikat" type="number" class="validate">
+            <label for="icon_prefix">Nomer Sertifikat</label>
+           </div>
+          </div>
+          <div class="row">
+           <div class="input-field col s3">
+            <i class="material-icons prefix">access_time</i>
+            <label for="date">Expired Sertifikat</label>
+            <input id="date" name="expired" type="date" class="datepicker">
+           </div>
+          </div>
+          <div class="row">
+           <div class="input-field col s12">
+             <i class="material-icons prefix">business_center</i>
+             <textarea name="produk"  class="materialize-textarea"></textarea>
+             <label for="icon_prefix">Produk</label>
+           </div>
+          </div>
+          <div class="buton">
+            <span class="btn" value="simpan">Simpan</span>
+            <a href="cek.php"><span class="btn" value="CEK">CEK</span></a>
+          </div>
+        </form>
+      </div>
+      <!--  -->
+      <!-- Modal -->
+      <div id="modal1" class="modal">
+        <div class="modal-content">
+          <h4>Alert</h4><hr>
+          <h6>Apakah data yang anda masukkan sudah benar..?</h6><br>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat red" onclick="simpan()"><span class="white-text">ok</span></a>
+          <a href="#!" class="modal-action modal-close waves-effect waves-gray btn-flat green"><span class="white-text">cancel</span></a>
+        </div>
+      </div>
+      <!-- akhir  -->
+    </div>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/materialize.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      //modals
+      $('.modal').modal();
+      //klik tombol simpan
+      $('.btn').click(function(){
+        var perusahaan = $("[name = 'nama']").val();
+        var sertifikat = $("[name = 'no_sertifikat']").val();
+        var expired    = $("[name = 'expired']").val();
+        var produk     = $("[name = 'produk']").val();
+
+        $.ajax({
+          type : "POST",
+          data : "perusahaan="+perusahaan+"&sertifikat="+sertifikat+"&expired="+expired+"&produk="+produk,
+          url  : "proses/validasi.php",
+          success : function(data){
+            var resultObj = JSON.parse(data);
+            if (resultObj.message == "true") {
+              $('#modal1').modal('open');
+            } else {
+              Materialize.toast(resultObj.message, 10000);
+              // var a = Materialize.toast(resultObj.message, 4000);
+            }
+          }
+        });
+      });
+      // -------- akhir
+    });
+    // -- datepicker
+    $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 50 // Creates a dropdown of 15 years to control year
+    });
+    //-- akhir datepicker --//
+    // -- function simpan -- //
+    function simpan(){
+      var perusahaan = $("[name = 'nama']").val();
+      var sertifikat = $("[name = 'no_sertifikat']").val();
+      var expired    = $("[name = 'expired']").val();
+      var produk     = $("[name = 'produk']").val();
+
+      $.ajax({
+        type : "POST",
+        data : "perusahaan="+perusahaan+"&sertifikat="+sertifikat+"&expired="+expired+"&produk="+produk,
+        url  : "proses/insert.php",
+        success : function(data){
+
+          var resultObj = JSON.parse(data);
+          Materialize.toast(resultObj.message, 4000);
+        }
+      });
+    }
+    //-- --//
+    </script>
+  </body>
+</html>
