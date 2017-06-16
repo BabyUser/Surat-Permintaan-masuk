@@ -59,8 +59,34 @@
              <label for="icon_prefix">Produk</label>
            </div>
           </div>
+          <div id="show" class="row"><hr>
+            <div class="col s2">
+              <h6>Choose your file(.xls):</h6>
+            </div>
+            <div class="file-field input-field col s10">
+              <div class="btn">
+                <span>File</span>
+                <input type="file">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" placeholder="Upload one or more files" type="text">
+              </div>
+            </div>
+            <div class="col s10 offset-s2">
+              <input type="checkbox" id="test5" values="1" />
+              <label for="test5">Kosongkan Tabel Terlebih Dahulu</label><br>
+            </div>
+            <div>
+              <h6 id="back" class="blue-text center">
+                BACK
+              </h6>
+            </div>
+          </div>
+          <div class="asd">
+            <h6 class="center"><u class="grey-text">or import DATA from</u> <a id="excel" class="blue-text">EXCEL</a></h6>
+          </div>
           <div class="buton">
-            <span class="btn" value="simpan">Simpan</span>
+            <span class="btn red" value="simpan">Simpan</span>
             <a href="cek.php"><span class="btn" value="CEK">CEK</span></a>
           </div>
         </form>
@@ -83,6 +109,24 @@
     <script type="text/javascript" src="js/materialize.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){
+       // -----hidden
+        $("#show").hide();
+        // --
+      // --- klik excel
+      $('#excel').click(function(){
+        $(".asd").slideUp("slow");
+        $("div.row").slideUp("slow");
+        $("#show").show("slow");
+      });
+      // ---
+      // --- klik back
+      $('#back').click(function(){
+        $(".asd").slideDown("slow");
+        $("div.row").slideDown("slow");
+        $("#show").hide("slow");
+      });
+      // ---
+
       //modals
       $('.modal').modal();
       //klik tombol simpan
@@ -109,6 +153,8 @@
       });
       // -------- akhir
     });
+
+
     // -- datepicker
     $('.datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
@@ -134,6 +180,7 @@
       });
     }
     //-- --//
+
     </script>
   </body>
 </html>
