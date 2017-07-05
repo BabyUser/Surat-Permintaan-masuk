@@ -1,18 +1,17 @@
 <?php
 $nama = $_POST['perusahaan'];
 $sertifikat = $_POST['sertifikat'];
-$expired = $_POST['expired'];
 $produks = $_POST['produk'];
+$olahan = $_POST['olahan'];
 $result['message'] = "";
-
 if ($nama == "") {
   $result['message'] = "Nama perusahaan tidak boleh kosong";
 }
 else if ($sertifikat == "") {
   $result['message'] = "Nomer Sertfikat tidak boleh kosong";
 }
-else if ($expired == "") {
-  $result['message'] = "Tanggal tidak boleh kosong";
+elseif ($olahan == "null") {
+  $result['message'] = "Kategori Olahan tidak boleh kosong";
 }
 else if ($produks == "") {
   $result['message'] = "Produk tidak boleh kosong";
