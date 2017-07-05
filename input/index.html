@@ -21,6 +21,9 @@
         bottom: 50%;
         left:40%;
       }
+      #select {
+        margin-left: 45px;
+      }
     </style>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
@@ -41,16 +44,19 @@
           <div class="row">
            <div class="input-field col s5">
             <i class="material-icons prefix">assignment_turned_in</i>
-            <input id="icon_prefix" name="no_sertifikat" type="number" class="validate">
+            <input id="icon_prefix" name="no_sertifikat" type="text" class="validate">
             <label for="icon_prefix">Nomer Sertifikat</label>
            </div>
           </div>
           <div class="row">
-           <div class="input-field col s3">
-            <i class="material-icons prefix">access_time</i>
-            <label for="date">Expired Sertifikat</label>
-            <input id="date" name="expired" type="date" class="datepicker">
-           </div>
+             <div class="input-field col s8">
+              <select id="select" class="browser-default" name="olahan">
+                <option value="kosong" disabled selected>Kategori Olahan</option>
+                <option value="daging">Daging</option>
+                <option value="susu">Susu</option>
+                <option value="ikan">Ikan</option>
+              </select>
+             </div>
           </div>
           <div class="row">
            <div class="input-field col s12">
@@ -89,20 +95,20 @@
       $('.btn').click(function(){
         var perusahaan = $("[name = 'nama']").val();
         var sertifikat = $("[name = 'no_sertifikat']").val();
-        var expired    = $("[name = 'expired']").val();
+        var olahan    = $("[name = 'olahan']").val();
         var produk     = $("[name = 'produk']").val();
 
         $.ajax({
           type : "POST",
-          data : "perusahaan="+perusahaan+"&sertifikat="+sertifikat+"&expired="+expired+"&produk="+produk,
+          data : "perusahaan="+perusahaan+"&sertifikat="+sertifikat+"&olahan="+olahan+"&produk="+produk,
           url  : "proses/validasi.php",
           success : function(data){
             var resultObj = JSON.parse(data);
+            // console.log(data);
             if (resultObj.message == "true") {
               $('#modal1').modal('open');
             } else {
               Materialize.toast(resultObj.message, 10000);
-              // var a = Materialize.toast(resultObj.message, 4000);
             }
           }
         });
@@ -119,15 +125,15 @@
     function simpan(){
       var perusahaan = $("[name = 'nama']").val();
       var sertifikat = $("[name = 'no_sertifikat']").val();
-      var expired    = $("[name = 'expired']").val();
+      var olahan    = $("[name = 'olahan']").val();
       var produk     = $("[name = 'produk']").val();
 
       $.ajax({
         type : "POST",
-        data : "perusahaan="+perusahaan+"&sertifikat="+sertifikat+"&expired="+expired+"&produk="+produk,
+        data : "perusahaan="+perusahaan+"&sertifikat="+sertifikat+"&olahan="+olahan+"&produk="+produk,
         url  : "proses/insert.php",
         success : function(data){
-
+          // console.log(data);
           var resultObj = JSON.parse(data);
           Materialize.toast(resultObj.message, 4000);
         }
